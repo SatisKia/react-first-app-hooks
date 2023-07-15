@@ -1,15 +1,11 @@
 import './Option.css';
-import { AppContext } from './App';
+import { useStore } from './store';
 import React, { useContext, useState } from 'react';
 
 const MyOption = React.memo(() => {
   console.log("MyOption");
 
-  const { setMode } = useContext(AppContext);
-
-  // State
-  const [ italicFlag, setItalicFlag ] = useState(global.calc.italicFlag);
-  const [ separatorType, setSeparatorType ] = useState(global.calc.separatorType);
+  const { state, dispatch } = useStore();
 
   // イタリック
   const handleChangeItalic = (event) => {
@@ -18,7 +14,7 @@ const MyOption = React.memo(() => {
     global.calc.italicFlag = !global.calc.italicFlag;
     global.calc.save(global.calc.saveItalicFlag);
 
-    setItalicFlag(global.calc.italicFlag);
+    dispatch({ type: "setItalicFlag", payload: global.calc.italicFlag });
   };
 
   // 桁区切り
@@ -28,7 +24,7 @@ const MyOption = React.memo(() => {
     global.calc.separatorType = global.calc.separatorTypeNone;
     global.calc.save(global.calc.saveSeparatorType);
 
-    setSeparatorType(global.calc.separatorType);
+    dispatch({ type: "setSeparatorType", payload: global.calc.separatorType });
   };
   const handleChangeSeparatorTypeDash = (event) => {
     console.log("handleChangeSeparatorTypeDash");
@@ -36,7 +32,7 @@ const MyOption = React.memo(() => {
     global.calc.separatorType = global.calc.separatorTypeDash;
     global.calc.save(global.calc.saveSeparatorType);
 
-    setSeparatorType(global.calc.separatorType);
+    dispatch({ type: "setSeparatorType", payload: global.calc.separatorType });
   };
   const handleChangeSeparatorTypeComma = (event) => {
     console.log("handleChangeSeparatorTypeComma");
@@ -44,7 +40,7 @@ const MyOption = React.memo(() => {
     global.calc.separatorType = global.calc.separatorTypeComma;
     global.calc.save(global.calc.saveSeparatorType);
 
-    setSeparatorType(global.calc.separatorType);
+    dispatch({ type: "setSeparatorType", payload: global.calc.separatorType });
   };
 
   const isEnglish = global.calc.isEnglish();
@@ -57,13 +53,13 @@ const MyOption = React.memo(() => {
 
   return (
     <div className="option_body">
-      <div className="div_return" onClick={() => { setMode(global.calc.returnMode); }}>
+      <div className="div_return" onClick={() => { dispatch({ type: "setMode", payload: global.calc.returnMode }); }}>
         <span className="span_return">{strBack}</span>
       </div>
       <div className="div_option">
         <fieldset className="checkbox1">
           <label>
-            <input type="checkbox" name="checkbox1" checked={italicFlag} onChange={handleChangeItalic} />
+            <input type="checkbox" name="checkbox1" checked={state.italicFlag} onChange={handleChangeItalic} />
             <span className="span_option">&nbsp;{strItalic}</span>
           </label>
         </fieldset>
@@ -73,19 +69,19 @@ const MyOption = React.memo(() => {
         </div>
         <fieldset className="radio1">
           <label>
-            <input type="radio" name="radio1" checked={separatorType === global.calc.separatorTypeNone} onChange={handleChangeSeparatorTypeNone} />
+            <input type="radio" name="radio1" checked={state.separatorType === global.calc.separatorTypeNone} onChange={handleChangeSeparatorTypeNone} />
             <span className="span_option">&nbsp;{strSeparatorNone}</span>
           </label>
         </fieldset>
         <fieldset className="radio1">
           <label>
-            <input type="radio" name="radio1" checked={separatorType === global.calc.separatorTypeDash} onChange={handleChangeSeparatorTypeDash} />
+            <input type="radio" name="radio1" checked={state.separatorType === global.calc.separatorTypeDash} onChange={handleChangeSeparatorTypeDash} />
             <span className="span_option">&nbsp;{strSeparatorUpper}</span>
           </label>
         </fieldset>
         <fieldset className="radio1">
           <label>
-            <input type="radio" name="radio1" checked={separatorType === global.calc.separatorTypeComma} onChange={handleChangeSeparatorTypeComma} />
+            <input type="radio" name="radio1" checked={state.separatorType === global.calc.separatorTypeComma} onChange={handleChangeSeparatorTypeComma} />
             <span className="span_option">&nbsp;{strSeparatorLower}</span>
           </label>
         </fieldset>

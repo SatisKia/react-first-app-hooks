@@ -1,6 +1,7 @@
 import './App.css';
 import './Global.js';
-import { createContext, useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useStore } from './store';
 import CalcFunctionService from './service/CalcFunctionService';
 import CalcNumberService from './service/CalcNumberService';
 import MyFunction from './Function';
@@ -16,52 +17,52 @@ class MyCalcNumberService extends CalcNumberService {
 
   setDispError( type ){
     if( type == global.calc.errorTypeDivideByZero ){
-      global.calcApp.setDispStr( "Divide by zero" );
+      global.calcStoreDispatch({ type: "setDispStr", payload: "Divide by zero" });
     } else if( type == global.calc.errorTypePositiveInfinity ){
-      global.calcApp.setDispStr( "Infinity" );
+      global.calcStoreDispatch({ type: "setDispStr", payload: "Infinity" });
     } else if( type == global.calc.errorTypeNegativeInfinity ){
-      global.calcApp.setDispStr( "-Infinity" );
+      global.calcStoreDispatch({ type: "setDispStr", payload: "-Infinity" });
     } else if( type == global.calc.errorTypeNotANumber ){
-      global.calcApp.setDispStr( "NaN" );
+      global.calcStoreDispatch({ type: "setDispStr", payload: "NaN" });
     }
   }
   setDispResult( value ){
-    global.calcApp.setDispStr( this.valueToString( value, 15 ) );
+    global.calcStoreDispatch({ type: "setDispStr", payload: this.valueToString( value, 15 ) });
   }
   setDispEntry( entry ){
-    global.calcApp.setDispStr( entry );
+    global.calcStoreDispatch({ type: "setDispStr", payload: entry });
   }
   clearDispLog(){
-    global.calcApp.setDispLog( "" );
+    global.calcStoreDispatch({ type: "setDispLog", payload: "" });
   }
   setDispLog( value, opType ){
     if( opType == global.calc.opTypeDiv ){
-      global.calcApp.setDispLog( this.valueToString( value, 10 ) + " ÷" );
+      global.calcStoreDispatch({ type: "setDispLog", payload: this.valueToString( value, 10 ) + " ÷" });
     }
     if( opType == global.calc.opTypeMul ){
-      global.calcApp.setDispLog( this.valueToString( value, 10 ) + " ×" );
+      global.calcStoreDispatch({ type: "setDispLog", payload: this.valueToString( value, 10 ) + " ×" });
     }
     if( opType == global.calc.opTypeSub ){
-      global.calcApp.setDispLog( this.valueToString( value, 10 ) + " -" );
+      global.calcStoreDispatch({ type: "setDispLog", payload: this.valueToString( value, 10 ) + " -" });
     }
     if( opType == global.calc.opTypeAdd ){
-      global.calcApp.setDispLog( this.valueToString( value, 10 ) + " +" );
+      global.calcStoreDispatch({ type: "setDispLog", payload: this.valueToString( value, 10 ) + " +" });
     }
   }
   addDispLog( value ){
-    global.calcApp.setDispLog( global.calcApp.dispLog + " " + this.valueToString( value, 10 ) + " =" );
+    global.calcStoreDispatch({ type: "setDispLog", payload: global.calcStoreState.dispLog + " " + this.valueToString( value, 10 ) + " =" });
   }
   setDispAnswer( value ){
-    global.calcApp.setDispAnswer( this.valueToString( value, 10 ) );
+    global.calcStoreDispatch({ type: "setDispAnswer", payload: this.valueToString( value, 10 ) });
   }
   setDispMemory( value ){
-    global.calcApp.setDispMemory( this.valueToString( value, 10 ) );
+    global.calcStoreDispatch({ type: "setDispMemory", payload: this.valueToString( value, 10 ) });
   }
   memoryRecalled( flag ){
-    global.calcApp.setMrcButtonText( flag ? "MC" : "MR" );
+    global.calcStoreDispatch({ type: "setMrcButtonText", payload: flag ? "MC" : "MR" });
   }
   errorChanged( flag ){
-    global.calcApp.setErrorFlag( flag );
+    global.calcSetErrorFlag( flag );
   }
 }
 
@@ -73,47 +74,46 @@ class MyCalcFunctionService extends CalcFunctionService {
 
   setDispError( type ){
     if( type == global.calc.errorTypeDivideByZero ){
-      global.calcApp.setDispStr( "Divide by zero" );
+      global.calcStoreDispatch({ type: "setDispStr", payload: "Divide by zero" });
     } else if( type == global.calc.errorTypePositiveInfinity ){
-      global.calcApp.setDispStr( "Infinity" );
+      global.calcStoreDispatch({ type: "setDispStr", payload: "Infinity" });
     } else if( type == global.calc.errorTypeNegativeInfinity ){
-      global.calcApp.setDispStr( "-Infinity" );
+      global.calcStoreDispatch({ type: "setDispStr", payload: "-Infinity" });
     } else if( type == global.calc.errorTypeNotANumber ){
-      global.calcApp.setDispStr( "NaN" );
+      global.calcStoreDispatch({ type: "setDispStr", payload: "NaN" });
     }
   }
   setDispResult( value ){
-    global.calcApp.setDispStr( this.valueToString( value, 15 ) );
+    global.calcStoreDispatch({ type: "setDispStr", payload: this.valueToString( value, 15 ) });
   }
   setDispEntry( entry ){
-    global.calcApp.setDispStr( entry );
+    global.calcStoreDispatch({ type: "setDispStr", payload: entry });
   }
   setDispMemory( value ){
-    global.calcApp.setDispMemory( this.valueToString( value, 10 ) );
+    global.calcStoreDispatch({ type: "setDispMemory", payload: this.valueToString( value, 10 ) });
   }
   memoryRecalled( flag ){
-    global.calcApp.setMrcButtonText( flag ? "MC" : "MR" );
+    global.calcStoreDispatch({ type: "setMrcButtonText", payload: flag ? "MC" : "MR" });
   }
   errorChanged( flag ){
-    global.calcApp.setErrorFlag( flag );
+    global.calcSetErrorFlag( flag );
   }
 
   angleChanged( type ){
     if( type == global.calc.angleTypeRad ){
-      global.calcApp.setDispAngle( "RAD" );
-      global.calcApp.setAngleButtonText( "DEG" );
+      global.calcStoreDispatch({ type: "setDispAngle", payload: "RAD" });
+      global.calcStoreDispatch({ type: "setAngleButtonText", payload: "DEG" });
     } else if( type == global.calc.angleTypeDeg ){
-      global.calcApp.setDispAngle( "DEG" );
-      global.calcApp.setAngleButtonText( "GRAD" );
+      global.calcStoreDispatch({ type: "setDispAngle", payload: "DEG" });
+      global.calcStoreDispatch({ type: "setAngleButtonText", payload: "GRAD" });
     } else if( type == global.calc.angleTypeGrad ){
-      global.calcApp.setDispAngle( "GRAD" );
-      global.calcApp.setAngleButtonText( "RAD" );
+      global.calcStoreDispatch({ type: "setDispAngle", payload: "GRAD" });
+      global.calcStoreDispatch({ type: "setAngleButtonText", payload: "RAD" });
     }
   }
 }
 
-// グローバルデータとサービス
-global.calc.init();
+// サービス
 global.calcNumberService   = new MyCalcNumberService();
 global.calcFunctionService = new MyCalcFunctionService();
 
@@ -122,47 +122,34 @@ window.onlanguagechange = (event) => {
   document.title = isEnglish ? "Calculator" : "電卓";
 };
 
-// Context
-export const AppContext = createContext();
-
 function App() {
   console.log("App");
 
-  // State
-  const [ mode, setMode ] = useState(global.calc.mode);
-  const [ dispStr, setDispStr ] = useState("0");
-  const [ dispLog, setDispLog ] = useState("");
-  const [ dispAnswer, setDispAnswer ] = useState("0");
-  const [ dispMemory, setDispMemory ] = useState("0");
-  const [ mrcButtonText, setMrcButtonText ] = useState("MR");
-  const [ memoryRecalled, setMemoryRecalled ] = useState(global.calc.memoryRecalled);
-  const [ dispAngle, setDispAngle ] = useState("RAD");
-  const [ angleButtonText, setAngleButtonText ] = useState("DEG");
   const { errorFlag, setErrorFlag, onButton } = useError();
-  const appValue = { setMode, dispStr, dispLog, dispAnswer, dispMemory, mrcButtonText, memoryRecalled, dispAngle, angleButtonText, errorFlag };
-  global.calcApp = { setDispStr, dispLog, setDispLog, setDispAnswer, setDispMemory, setMrcButtonText, setMemoryRecalled, setDispAngle, setAngleButtonText, setErrorFlag };
+  global.calcSetErrorFlag = setErrorFlag;
+  const { state, dispatch } = useStore();
+  global.calcStoreState = state;
+  global.calcStoreDispatch = dispatch;
 
   useEffect(() => {
-    if (mode == global.calc.modeNumber) {
+    if (state.mode == global.calc.modeNumber) {
       global.calcNumberService.init();
-    } else if (mode == global.calc.modeFunction) {
+    } else if (state.mode == global.calc.modeFunction) {
       global.calcFunctionService.init();
     }
-  }, [mode]);
+  }, [state.mode]);
 
   return (
     <div className="App">
-      <AppContext.Provider value={appValue}>
-        <div style={{ display: (mode === global.calc.modeNumber) ? "block" : "none" }}>
-          <MyNumber onButton={onButton} />
-        </div>
-        <div style={{ display: (mode === global.calc.modeFunction) ? "block" : "none" }}>
-          <MyFunction onButton={onButton} />
-        </div>
-        <div style={{ display: (mode === global.calc.modeOption) ? "block" : "none" }}>
-          <MyOption />
-        </div>
-      </AppContext.Provider>
+      <div style={{ display: (state.mode === global.calc.modeNumber) ? "block" : "none" }}>
+        <MyNumber onButton={onButton} errorFlag={errorFlag} />
+      </div>
+      <div style={{ display: (state.mode === global.calc.modeFunction) ? "block" : "none" }}>
+        <MyFunction onButton={onButton} errorFlag={errorFlag} />
+      </div>
+      <div style={{ display: (state.mode === global.calc.modeOption) ? "block" : "none" }}>
+        <MyOption />
+      </div>
     </div>
   );
 }

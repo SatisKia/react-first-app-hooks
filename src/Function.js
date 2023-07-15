@@ -1,11 +1,9 @@
 import './Function.css';
-import { AppContext } from './App';
+import { useStore } from './store';
 import React, { useContext } from 'react';
 
-const MyFunctionA = React.memo(({ onButton, dispStr, dispAngle, dispMemory, mrcButtonText, memoryRecalled }) => {
+const MyFunctionA = React.memo(({ onButton, dispStr, dispAngle, dispMemory, mrcButtonText, memoryRecalled, italicFlag, separatorType, dispatch }) => {
   console.log("MyFunctionA");
-
-  const { setMode } = useContext(AppContext);
 
   // 操作
   const onButtonMAdd = () => { onButton( () => {
@@ -23,13 +21,13 @@ const MyFunctionA = React.memo(({ onButton, dispStr, dispAngle, dispMemory, mrcB
   } ); };
   const onButtonNumber = () => { onButton( () => {
     global.calcFunctionService.setOp();
-    setMode(global.calc.modeNumber);
+    dispatch({ type: "setMode", payload: global.calc.modeNumber });
   } ); };
 
   // 桁区切り
-  if (global.calc.separatorType == global.calc.separatorTypeDash) {
+  if (separatorType == global.calc.separatorTypeDash) {
     dispStr = global.calcFunctionService.sepString(dispStr, "'");
-  } else if (global.calc.separatorType == global.calc.separatorTypeComma) {
+  } else if (separatorType == global.calc.separatorTypeComma) {
     dispStr = global.calcFunctionService.sepString(dispStr, ",");
   }
 
@@ -37,19 +35,19 @@ const MyFunctionA = React.memo(({ onButton, dispStr, dispAngle, dispMemory, mrcB
     <div>
       <div className="div_log1" onClick={() => {
         global.calc.returnMode = global.calc.modeFunction;
-        setMode(global.calc.modeOption);
+        dispatch({ type: "setMode", payload: global.calc.modeOption });
       }}>
         <span className="span_log1">{dispAngle}</span>
       </div>
       <div className="div_log2" onClick={() => {
         global.calc.returnMode = global.calc.modeFunction;
-        setMode(global.calc.modeOption);
+        dispatch({ type: "setMode", payload: global.calc.modeOption });
       }}>
-        <span className={global.calc.italicFlag ? "span_log2_italic" : "span_log2"}>{dispStr}</span>
+        <span className={italicFlag ? "span_log2_italic" : "span_log2"}>{dispStr}</span>
       </div>
       <div className="div_log1" onClick={() => {
         global.calc.returnMode = global.calc.modeFunction;
-        setMode(global.calc.modeOption);
+        dispatch({ type: "setMode", payload: global.calc.modeOption });
       }}>
         <span className="span_log1">M = {dispMemory}</span>
       </div>
@@ -228,16 +226,15 @@ const MyFunctionC = React.memo(({ onButton }) => {
   );
 });
 
-const MyFunction = React.memo(({ onButton }) => {
+const MyFunction = React.memo(({ onButton, errorFlag }) => {
   console.log("MyFunction");
 
-  const { dispStr, dispAngle, dispMemory, mrcButtonText, memoryRecalled } = useContext(AppContext);
-  const { errorFlag, angleButtonText } = useContext(AppContext);
+  const { state, dispatch } = useStore();
 
   return (
     <div className="body">
-      <MyFunctionA onButton={onButton} dispStr={dispStr} dispAngle={dispAngle} dispMemory={dispMemory} mrcButtonText={mrcButtonText} memoryRecalled={memoryRecalled} />
-      <MyFunctionB onButton={onButton} errorFlag={errorFlag} angleButtonText={angleButtonText} />
+      <MyFunctionA onButton={onButton} dispStr={state.dispStr} dispAngle={state.dispAngle} dispMemory={state.dispMemory} mrcButtonText={state.mrcButtonText} memoryRecalled={state.memoryRecalled} italicFlag={state.italicFlag} separatorType={state.separatorType} dispatch={dispatch} />
+      <MyFunctionB onButton={onButton} errorFlag={errorFlag} angleButtonText={state.angleButtonText} />
       <MyFunctionC onButton={onButton} />
     </div>
   );
