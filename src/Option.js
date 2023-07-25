@@ -1,6 +1,6 @@
 import './Option.css';
 import { useStore } from './store';
-import React, { useContext, useState } from 'react';
+import React from 'react';
 
 const MyOption = React.memo(() => {
   console.log("MyOption");

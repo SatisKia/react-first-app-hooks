@@ -1,5 +1,5 @@
 import './App.css';
-import './Global.js';
+import './Global';
 import { useEffect } from 'react';
 import { useStore } from './store';
 import CalcFunctionService from './service/CalcFunctionService';
@@ -59,6 +59,7 @@ class MyCalcNumberService extends CalcNumberService {
     global.calcStoreDispatch({ type: "setDispMemory", payload: this.valueToString( value, 10 ) });
   }
   memoryRecalled( flag ){
+    global.calcStoreDispatch({ type: "setMemoryRecalled", payload: flag });
     global.calcStoreDispatch({ type: "setMrcButtonText", payload: flag ? "MC" : "MR" });
   }
   errorChanged( flag ){
@@ -93,6 +94,7 @@ class MyCalcFunctionService extends CalcFunctionService {
     global.calcStoreDispatch({ type: "setDispMemory", payload: this.valueToString( value, 10 ) });
   }
   memoryRecalled( flag ){
+    global.calcStoreDispatch({ type: "setMemoryRecalled", payload: flag });
     global.calcStoreDispatch({ type: "setMrcButtonText", payload: flag ? "MC" : "MR" });
   }
   errorChanged( flag ){

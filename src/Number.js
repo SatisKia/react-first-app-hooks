@@ -1,6 +1,6 @@
 import './Number.css';
 import { useStore } from './store';
-import React, { useContext } from 'react';
+import React from 'react';
 
 const MyNumberA = React.memo(({ onButton, dispStr, dispLog, dispAnswer, dispMemory, mrcButtonText, memoryRecalled, italicFlag, separatorType, dispatch }) => {
   console.log("MyNumberA");

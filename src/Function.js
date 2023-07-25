@@ -1,6 +1,6 @@
 import './Function.css';
 import { useStore } from './store';
-import React, { useContext } from 'react';
+import React from 'react';
 
 const MyFunctionA = React.memo(({ onButton, dispStr, dispAngle, dispMemory, mrcButtonText, memoryRecalled, italicFlag, separatorType, dispatch }) => {
   console.log("MyFunctionA");
@@ -13,7 +13,7 @@ const MyFunctionA = React.memo(({ onButton, dispStr, dispAngle, dispMemory, mrcB
     global.calcFunctionService.subMemory();
   } ); };
   const onButtonMRC = () => { onButton( () => {
-    if( global.calc.memoryRecalled ){
+    if( memoryRecalled ){
       global.calcFunctionService.clearMemory();
     } else {
       global.calcFunctionService.recallMemory();
