@@ -8,7 +8,7 @@ const MyOption = React.memo(() => {
   const { state, dispatch } = useStore();
 
   // イタリック
-  const handleChangeItalic = (event) => {
+  const handleChangeItalic = (event: React.ChangeEvent<HTMLElement>) => {
     console.log("handleChangeItalic");
 
     global.calc.italicFlag = !global.calc.italicFlag;
@@ -18,7 +18,7 @@ const MyOption = React.memo(() => {
   };
 
   // 桁区切り
-  const handleChangeSeparatorTypeNone = (event) => {
+  const handleChangeSeparatorTypeNone = (event: React.ChangeEvent<HTMLElement>) => {
     console.log("handleChangeSeparatorTypeNone");
 
     global.calc.separatorType = global.calc.separatorTypeNone;
@@ -26,7 +26,7 @@ const MyOption = React.memo(() => {
 
     dispatch({ type: "setSeparatorType", payload: global.calc.separatorType });
   };
-  const handleChangeSeparatorTypeDash = (event) => {
+  const handleChangeSeparatorTypeDash = (event: React.ChangeEvent<HTMLElement>) => {
     console.log("handleChangeSeparatorTypeDash");
 
     global.calc.separatorType = global.calc.separatorTypeDash;
@@ -34,7 +34,7 @@ const MyOption = React.memo(() => {
 
     dispatch({ type: "setSeparatorType", payload: global.calc.separatorType });
   };
-  const handleChangeSeparatorTypeComma = (event) => {
+  const handleChangeSeparatorTypeComma = (event: React.ChangeEvent<HTMLElement>) => {
     console.log("handleChangeSeparatorTypeComma");
 
     global.calc.separatorType = global.calc.separatorTypeComma;

@@ -1,8 +1,20 @@
 import './Number.css';
 import { useStore } from './store';
+import type { MyAction } from './store';
 import React from 'react';
 
-const MyNumberA = React.memo(({ onButton, dispStr, dispLog, dispAnswer, dispMemory, mrcButtonText, memoryRecalled, italicFlag, separatorType, dispatch }) => {
+const MyNumberA = React.memo<{
+  onButton: (func: any) => void;
+  dispStr: string;
+  dispLog: string;
+  dispAnswer: string;
+  dispMemory: string;
+  mrcButtonText: string;
+  memoryRecalled: boolean;
+  italicFlag: boolean;
+  separatorType: number;
+  dispatch: React.Dispatch<MyAction>;
+}>(({ onButton, dispStr, dispLog, dispAnswer, dispMemory, mrcButtonText, memoryRecalled, italicFlag, separatorType, dispatch }) => {
   console.log("MyNumberA");
 
   // 操作
@@ -69,11 +81,14 @@ const MyNumberA = React.memo(({ onButton, dispStr, dispLog, dispAnswer, dispMemo
   );
 });
 
-const MyNumberB = React.memo(({ onButton, errorFlag }) => {
+const MyNumberB = React.memo<{
+  onButton: (func: any) => void;
+  errorFlag: boolean;
+}>(({ onButton, errorFlag }) => {
   console.log("MyNumberB");
 
   // 操作
-  const onButtonClear = ( allFlag ) => {
+  const onButtonClear = ( allFlag: boolean ) => {
     global.calcNumberService.clearEntry( allFlag );
   };
   const onButtonCE = () => {
@@ -114,7 +129,9 @@ const MyNumberB = React.memo(({ onButton, errorFlag }) => {
   );
 });
 
-const MyNumberC = React.memo(({ onButton }) => {
+const MyNumberC = React.memo<{
+  onButton: (func: any) => void;
+}>(({ onButton }) => {
   console.log("MyNumberC");
 
   // 操作
@@ -229,7 +246,10 @@ const MyNumberC = React.memo(({ onButton }) => {
   );
 });
 
-const MyNumber = React.memo(({ onButton, errorFlag }) => {
+const MyNumber = React.memo<{
+  onButton: (func: any) => void;
+  errorFlag: boolean;
+}>(({ onButton, errorFlag }) => {
   console.log("MyNumber");
 
   const { state, dispatch } = useStore();

@@ -1,11 +1,24 @@
-import './Global.js';
+import './Global';
 import { createContext, useContext, useReducer } from 'react';
 
 // グローバルデータ
 global.calc.init();
 
 // State
-const initialState = {
+export type MyState = {
+  mode: number;
+  dispStr: string;
+  dispLog: string;
+  dispAnswer: string;
+  dispMemory: string;
+  mrcButtonText: string;
+  memoryRecalled: boolean;
+  dispAngle: string;
+  angleButtonText: string;
+  italicFlag: boolean;
+  separatorType: number;
+};
+const initialState: MyState = {
   mode: global.calc.mode,
 
   dispStr: "0",
@@ -23,7 +36,41 @@ const initialState = {
 };
 
 // Reducer
-const reducer = (oldState, action) => {
+export type MyAction = {
+  type: 'setMode';
+  payload: number;
+} | {
+  type: 'setDispStr';
+  payload: string;
+} | {
+  type: 'setDispLog';
+  payload: string;
+} | {
+  type: 'setDispAnswer';
+  payload: string;
+} | {
+  type: 'setDispMemory';
+  payload: string;
+} | {
+  type: 'setMrcButtonText';
+  payload: string;
+} | {
+  type: 'setMemoryRecalled';
+  payload: boolean;
+} | {
+  type: 'setDispAngle';
+  payload: string;
+} | {
+  type: 'setAngleButtonText';
+  payload: string;
+} | {
+  type: 'setItalicFlag';
+  payload: boolean;
+} | {
+  type: 'setSeparatorType';
+  payload: number;
+};
+const reducer = (oldState: MyState, action: MyAction): MyState => {
   if( action.type == 'setMode' ){
     return Object.assign({}, oldState, { mode: action.payload });
   }
@@ -65,9 +112,16 @@ const reducer = (oldState, action) => {
 };
 
 // Context
-const store = createContext();
+type MyStore = {
+  state: MyState;
+  dispatch: React.Dispatch<MyAction>;
+};
+const store = createContext({} as MyStore);
 
-export const StoreProvider = ({ children }) => {
+type MyProvider = {
+  children: React.ReactNode;
+};
+export const StoreProvider: React.FC<MyProvider> = ({ children }) => {
   const [ state, dispatch ] = useReducer(reducer, initialState);
   return (
     <store.Provider value={{ state, dispatch }}>

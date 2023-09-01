@@ -1,8 +1,12 @@
 import { useCallback, useState } from 'react';
 
-const useError = () => {
-  const [ errorFlag, setErrorFlag ] = useState(global.calc.errorFlag);
-  const onButton = useCallback(( func ) => {
+const useError = (): {
+  errorFlag: boolean;
+  setErrorFlag: (flag: boolean) => void;
+  onButton: (func: any) => void;
+} => {
+  const [ errorFlag, setErrorFlag ] = useState<boolean>(global.calc.errorFlag);
+  const onButton = useCallback(( func: any ) => {
     if( !errorFlag ){
       func();
     }

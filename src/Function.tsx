@@ -1,8 +1,19 @@
 import './Function.css';
 import { useStore } from './store';
+import type { MyAction } from './store';
 import React from 'react';
 
-const MyFunctionA = React.memo(({ onButton, dispStr, dispAngle, dispMemory, mrcButtonText, memoryRecalled, italicFlag, separatorType, dispatch }) => {
+const MyFunctionA = React.memo<{
+  onButton: (func: any) => void;
+  dispStr: string;
+  dispAngle: string;
+  dispMemory: string;
+  mrcButtonText: string;
+  memoryRecalled: boolean;
+  italicFlag: boolean;
+  separatorType: number;
+  dispatch: React.Dispatch<MyAction>;
+}>(({ onButton, dispStr, dispAngle, dispMemory, mrcButtonText, memoryRecalled, italicFlag, separatorType, dispatch }) => {
   console.log("MyFunctionA");
 
   // 操作
@@ -69,7 +80,11 @@ const MyFunctionA = React.memo(({ onButton, dispStr, dispAngle, dispMemory, mrcB
   );
 });
 
-const MyFunctionB = React.memo(({ onButton, errorFlag, angleButtonText }) => {
+const MyFunctionB = React.memo<{
+  onButton: (func: any) => void;
+  errorFlag: boolean;
+  angleButtonText: string;
+}>(({ onButton, errorFlag, angleButtonText }) => {
   console.log("MyFunctionB");
 
   const changeAngle = () => {
@@ -83,7 +98,7 @@ const MyFunctionB = React.memo(({ onButton, errorFlag, angleButtonText }) => {
   };
 
   // 操作
-  const onButtonClear = ( allFlag ) => {
+  const onButtonClear = ( allFlag: boolean ) => {
     global.calcFunctionService.clearEntry( allFlag );
   };
   const onButtonCE = () => {
@@ -123,7 +138,9 @@ const MyFunctionB = React.memo(({ onButton, errorFlag, angleButtonText }) => {
   );
 });
 
-const MyFunctionC = React.memo(({ onButton }) => {
+const MyFunctionC = React.memo<{
+  onButton: (func: any) => void;
+}>(({ onButton }) => {
   console.log("MyFunctionC");
 
   // 操作
@@ -226,7 +243,10 @@ const MyFunctionC = React.memo(({ onButton }) => {
   );
 });
 
-const MyFunction = React.memo(({ onButton, errorFlag }) => {
+const MyFunction = React.memo<{
+  onButton: (func: any) => void;
+  errorFlag: boolean;
+}>(({ onButton, errorFlag }) => {
   console.log("MyFunction");
 
   const { state, dispatch } = useStore();
