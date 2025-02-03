@@ -99,4 +99,4 @@ global.calc.isEnglish = () => {
     window.navigator.language ||
     window.navigator.userLanguage;
   return language.substring(0, 2) === "en";
-}
+};
